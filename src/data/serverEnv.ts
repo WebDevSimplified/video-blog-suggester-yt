@@ -7,7 +7,7 @@ export const serverEnv = createEnv({
     BETTER_AUTH_SECRET: z.string().min(32),
     GITHUB_CLIENT_ID: z.string(),
     GITHUB_CLIENT_SECRET: z.string(),
-    LOCAL_EMBEDDING_BASE_URL: z.url(),
+    LOCAL_EMBEDDING_BASE_URL: z.url().nullable(),
     EMBEDDING_PROVIDER: z.enum(["qwen", "openai"]),
     OPENAI_API_KEY: z.string(),
   },

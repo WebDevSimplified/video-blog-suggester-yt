@@ -22,6 +22,4 @@ CREATE TABLE "chunks" (
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE INDEX "content_url_idx" ON "content" ("url");--> statement-breakpoint
-CREATE INDEX "chunks_contentId_idx" ON "chunks" ("content_id");--> statement-breakpoint
 ALTER TABLE "chunks" ADD CONSTRAINT "chunks_content_id_content_id_fkey" FOREIGN KEY ("content_id") REFERENCES "content"("id") ON DELETE CASCADE;

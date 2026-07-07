@@ -1,7 +1,7 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "e4a58620-46f7-4e66-8ec9-fba5c459b304",
+  "id": "22bc6810-35a0-4905-98cc-1c151b44897f",
   "prevIds": [
     "3f87138b-9de1-4c27-bd84-319a8a65b0b6"
   ],
@@ -776,48 +776,6 @@
       "entityType": "indexes",
       "schema": "public",
       "table": "verification"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        {
-          "value": "url",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        }
-      ],
-      "isUnique": false,
-      "where": null,
-      "with": "",
-      "method": "btree",
-      "concurrently": false,
-      "name": "content_url_idx",
-      "entityType": "indexes",
-      "schema": "public",
-      "table": "content"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        {
-          "value": "content_id",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        }
-      ],
-      "isUnique": false,
-      "where": null,
-      "with": "",
-      "method": "btree",
-      "concurrently": false,
-      "name": "chunks_contentId_idx",
-      "entityType": "indexes",
-      "schema": "public",
-      "table": "chunks"
     },
     {
       "nameExplicit": false,
