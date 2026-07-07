@@ -1,1 +1,7 @@
 GET http://localhost:3000/api/workflows/ingest-blog-articles
+Authorization: Bearer {{$dotenv CRON_SECRET}}
+
+###
+
+GET http://localhost:3000/api/workflows/ingest-youtube-videos
+Authorization: Bearer {{$dotenv CRON_SECRET}}
