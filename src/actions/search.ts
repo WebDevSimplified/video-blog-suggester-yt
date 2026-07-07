@@ -5,8 +5,14 @@ import { chunks, content } from "@/db/schema"
 import { eq, sql, gt, desc, cosineDistance } from "drizzle-orm"
 import { embed } from "ai"
 import { getEmbeddingModel } from "@/lib/embedding/get-embedding-model"
+import { auth } from "@/lib/auth/config"
+import { headers } from "next/headers"
 
 export async function searchContent(query: string) {
+  const user = auth.api.getSession({ headers: await headers() })
+
+  if (!user) return []
+
   if (!query.trim()) return []
 
   const model = getEmbeddingModel()
@@ -33,11 +39,10 @@ export async function searchContent(query: string) {
     .where(gt(dbSimilarity, 0.5))
     .innerJoin(content, eq(content.id, chunks.contentId))
     .orderBy(content.id, desc(dbSimilarity))
-    .limit(20)
 
   const sortedResults = matchedChunks.sort(
     (a, b) => b.similarity - a.similarity,
   )
 
-  return sortedResults
+  return sortedResults.slice(0, 20)
 }

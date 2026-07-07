@@ -1,5 +1,6 @@
 {
   "crons": [
-    { "path": "/api/workflows/ingest-blog-articles", "schedule": "0 0 * * 2" }
+    { "path": "/api/workflows/ingest-blog-articles", "schedule": "0 0 * * 2" },
+    { "path": "/api/workflows/ingest-youtube-videos", "schedule": "0 0 * * 3" }
   ]
 }
