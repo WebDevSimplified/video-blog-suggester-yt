@@ -226,7 +226,7 @@ export default function Home() {
         </div>
 
         {/* Results */}
-        {results.length > 0 && (
+        {Array.isArray(results) && results.length > 0 && (
           <div className="w-full pt-8 pb-16">
             <SearchResults results={results} />
           </div>
