@@ -14,6 +14,8 @@ export const serverEnv = createEnv({
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_CLIENT_SECRET: z.string(),
     GOOGLE_REFRESH_TOKEN: z.string(),
+    RATE_LIMIT_MAX_REQUESTS: z.coerce.number(),
+    RATE_LIMIT_WINDOW_HOURS: z.coerce.number(),
   },
   experimental__runtimeEnv: process.env,
   emptyStringAsUndefined: true,
