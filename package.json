@@ -16,8 +16,10 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^4.0.8",
     "@neondatabase/serverless": "^1.1.0",
     "@t3-oss/env-nextjs": "^0.13.11",
+    "ai": "^7.0.16",
     "better-auth": "^1.7.0-rc.1",
     "cheerio": "^1.2.0",
     "dotenv": "^17.4.2",

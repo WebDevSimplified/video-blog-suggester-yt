@@ -7,6 +7,7 @@ import { batchExec } from "./utils/batchExec"
 import z from "zod"
 import { FatalError } from "workflow"
 import { chunkArticles } from "@/lib/chunking/chunkArticles"
+import { embedChunks } from "@/lib/embedding/embed-chunks"
 
 const RSS_URL = "https://blog.webdevsimplified.com/rss.xml"
 
@@ -68,6 +69,7 @@ async function ingestArticleStep(feedItem: Parser.Item) {
   }
 
   const chunkTexts = chunkArticles(mainHtml)
+  const embeddings = await embedChunks(chunkTexts)
 
   const [contentRow] = await db
     .insert(content)
@@ -91,10 +93,10 @@ async function ingestArticleStep(feedItem: Parser.Item) {
 
   if (chunkTexts.length > 0) {
     await db.insert(chunks).values(
-      chunkTexts.map(chunkText => ({
+      chunkTexts.map((chunkText, i) => ({
         contentId: contentRow.id,
         startPosition: null,
-        embedding: null,
+        embedding: embeddings[i],
         text: chunkText,
       })),
     )
