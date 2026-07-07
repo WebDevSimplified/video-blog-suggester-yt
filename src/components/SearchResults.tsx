@@ -49,11 +49,6 @@ export default function SearchResults({
               <span className="inline-flex items-center gap-1 rounded-md bg-zinc-100 px-1.5 py-0.5 font-medium dark:bg-zinc-800">
                 {result.type === "video" ? "🎬" : "📄"} {result.type}
               </span>
-              {result.startPosition != null && (
-                <span className="text-zinc-400">
-                  at {result.startPosition}s
-                </span>
-              )}
             </div>
           </div>
         </a>
@@ -76,7 +71,7 @@ function getUrlAtChunkLocation(
         return `${result.url}#:~:text=${encodeURIComponent(splitText[0])},${encodeURIComponent(splitText.at(-1) ?? "")}`
       }
     case "video":
-      return result.url
+      return `${result.url}&t=${Math.floor((result.startPosition ?? 0) / 1000)}`
     default:
       throw new Error(`Unsupported type ${type satisfies never}`)
   }
