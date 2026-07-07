@@ -1,0 +1,5 @@
+{
+  "crons": [
+    { "path": "/api/workflows/ingest-blog-articles", "schedule": "0 0 * * 2" }
+  ]
+}
