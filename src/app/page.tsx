@@ -28,7 +28,13 @@ export default function Home() {
       const searchResults = await searchContent(searchQuery)
       setResults(searchResults)
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Search failed")
+      if (err instanceof Error && err.name === "RateLimitError") {
+        setError(
+          `Rate limit exceeded: ${err.message} Please try again later.`,
+        )
+      } else {
+        setError(err instanceof Error ? err.message : "Search failed")
+      }
       setResults([])
     } finally {
       setIsLoading(false)

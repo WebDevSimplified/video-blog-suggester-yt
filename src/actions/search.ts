@@ -1,19 +1,23 @@
 "use server"
 
 import { db } from "@/db/db"
-import { chunks, content } from "@/db/schema"
+import { chunks, content, userSearches } from "@/db/schema"
 import { eq, sql, gt, desc, cosineDistance } from "drizzle-orm"
 import { embed } from "ai"
 import { getEmbeddingModel } from "@/lib/embedding/get-embedding-model"
 import { auth } from "@/lib/auth/config"
 import { headers } from "next/headers"
+import { checkRateLimit } from "@/lib/rateLimit"
 
 export async function searchContent(query: string) {
-  const user = auth.api.getSession({ headers: await headers() })
+  const session = await auth.api.getSession({ headers: await headers() })
 
-  if (!user) return []
+  if (!session?.user?.id) return []
 
   if (!query.trim()) return []
+
+  // Check rate limit before doing any work
+  await checkRateLimit(session.user.id)
 
   const model = getEmbeddingModel()
   const { embedding: queryVector } = await embed({
@@ -43,6 +47,14 @@ export async function searchContent(query: string) {
   const sortedResults = matchedChunks.sort(
     (a, b) => b.similarity - a.similarity,
   )
+
+  // Record the search in the DB for rate limiting
+  const resultIds = sortedResults.map(r => r.id)
+  await db.insert(userSearches).values({
+    queryText: query.trim(),
+    userId: session.user.id,
+    resultContentIds: resultIds,
+  })
 
   return sortedResults.slice(0, 20)
 }
