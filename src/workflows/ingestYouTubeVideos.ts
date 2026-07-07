@@ -44,7 +44,10 @@ async function getNewVideosFromPlaylist() {
     .then(data => data.map(r => r.url))
 
   return videoIds.filter(
-    id => !existingUrls.includes(`https://www.youtube.com/watch?v=${id}`),
+    v =>
+      !existingUrls.includes(
+        `https://www.youtube.com/watch?v=${v.contentDetails?.videoId}`,
+      ),
   )
 }
 
@@ -60,7 +63,7 @@ async function getPlaylistItems() {
   })
 
   const uploadsPlaylistId =
-    channelDetails.data?.items?.[0].contentDetails?.relatedPlaylists?.uploads
+    channelDetails.data?.items?.[0]?.contentDetails?.relatedPlaylists?.uploads
 
   const allItems: youtube_v3.Schema$PlaylistItem[] = []
   let nextPageToken: string | undefined
@@ -109,7 +112,7 @@ async function ingestVideoStep(video: youtube_v3.Schema$PlaylistItem) {
 
   if (error) {
     throw new FatalError(
-      `Failed to process YouTube video ${video.id} - ${error.message}`,
+      `Failed to process YouTube video ${video.contentDetails?.videoId} - ${error.message}`,
     )
   }
 

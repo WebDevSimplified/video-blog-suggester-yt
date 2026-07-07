@@ -11,8 +11,7 @@ import { checkRateLimit } from "@/lib/rateLimit"
 
 export async function searchContent(query: string) {
   const session = await auth.api.getSession({ headers: await headers() })
-
-  if (!session?.user?.id) return []
+  if (!session) return []
 
   if (!query.trim()) return []
 
