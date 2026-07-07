@@ -16,7 +16,11 @@ export async function searchContent(query: string) {
   if (!query.trim()) return []
 
   // Check rate limit before doing any work
-  await checkRateLimit(session.user.id)
+  try {
+    await checkRateLimit(session.user.id)
+  } catch {
+    return { error: "Rate limit exceeded" }
+  }
 
   const model = getEmbeddingModel()
   const { embedding: queryVector } = await embed({

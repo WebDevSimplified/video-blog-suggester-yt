@@ -24,21 +24,13 @@ export default function Home() {
     }
     setIsLoading(true)
     setError(null)
-    try {
-      const searchResults = await searchContent(searchQuery)
+    const searchResults = await searchContent(searchQuery)
+    if (searchResults && "error" in searchResults) {
+      setError(searchResults.error)
+    } else {
       setResults(searchResults)
-    } catch (err) {
-      if (err instanceof Error && err.name === "RateLimitError") {
-        setError(
-          `Rate limit exceeded: ${err.message} Please try again later.`,
-        )
-      } else {
-        setError(err instanceof Error ? err.message : "Search failed")
-      }
-      setResults([])
-    } finally {
-      setIsLoading(false)
     }
+    setIsLoading(false)
   }, [])
 
   const handleSearch = useCallback(() => {
