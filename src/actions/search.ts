@@ -9,8 +9,7 @@ import { auth } from "@/lib/auth/config"
 import { headers } from "next/headers"
 
 export async function searchContent(query: string) {
-  const user = auth.api.getSession({ headers: await headers() })
-
+  const user = await auth.api.getSession({ headers: await headers() })
   if (!user) return []
 
   if (!query.trim()) return []
