@@ -10,6 +10,7 @@ export const serverEnv = createEnv({
     LOCAL_EMBEDDING_BASE_URL: z.url().optional(),
     EMBEDDING_PROVIDER: z.enum(["qwen", "openai"]),
     OPENAI_API_KEY: z.string(),
+    CRON_SECRET: z.string(),
   },
   experimental__runtimeEnv: process.env,
   emptyStringAsUndefined: true,
